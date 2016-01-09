@@ -1,6 +1,6 @@
 theme            = {}
 theme.icons      = os.getenv("HOME") .. "/.config/awesome/themes/current/icons/"
-theme.wallpaper  = os.getenv("HOME") .. "/.config/awesome/themes/current/wallpapers/wallpaper.png"
+theme.wallpaper  = os.getenv("HOME") .. "/.config/awesome/themes/current/wallpapers/wallpaper.jpg"
 theme.panel      = "png:" .. theme.icons .. "/panel/panel.png"
 theme.font       = "Cantarell Bold 10"
 
