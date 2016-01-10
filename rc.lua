@@ -197,7 +197,7 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", height = 32, screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -427,6 +427,10 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { class = "guake" },
       properties = { floating = true } },
+    { rule = { class = "Telegram" },
+      properties = { tag = tags[1][4] } },
+    { rule = { class = "slack" },
+      properties = { tag = tags[1][4] } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },

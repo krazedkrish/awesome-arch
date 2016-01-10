@@ -36,6 +36,7 @@ theme.layout_tileleft   = theme.icons .. "/panel/layouts/tileleft.png"
 theme.layout_tilebottom = theme.icons .. "/panel/layouts/tilebottom.png"
 theme.layout_tiletop    = theme.icons .. "/panel/layouts/tiletop.png"
 theme.layout_max        = theme.icons .. "/panel/layouts/max.png"
+theme.layout_fullscreen        = theme.icons .. "/panel/layouts/maxfullscreen.png"
 theme.layout_magnifier  = theme.icons .. "/panel/layouts/magnifier.png"
 
 -- | Taglist | --
@@ -50,9 +51,9 @@ theme.taglist_font        = "Cantarell Bold 10"
 
 theme.tasklist_font                 = "Cantarell Bold 10"
 theme.tasklist_disable_icon         = true
-theme.tasklist_bg_normal            = "#000000"
-theme.tasklist_bg_focus             = "#000000"
-theme.tasklist_bg_urgent            = "#000000"
+theme.tasklist_bg_normal            = "png:" .. theme.icons .. "/panel/tasklist/normal.png"
+theme.tasklist_bg_focus             = "png:" .. theme.icons .. "/panel/tasklist/focus.png"
+theme.tasklist_bg_urgent            = "png:" .. theme.icons .. "/panel/tasklist/urgent.png"
 theme.tasklist_fg_focus             = "#ffffff"
 theme.tasklist_fg_urgent            = "#00ffff"
 theme.tasklist_fg_normal            = "#cccccc"

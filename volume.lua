@@ -52,7 +52,7 @@ end
 -- }}}
 
 -- {{{ Listen
-helpers:listen(widget, 0.2)
+helpers:listen(widget)
 -- }}}
 
 return widget

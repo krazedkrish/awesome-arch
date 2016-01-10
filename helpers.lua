@@ -8,8 +8,8 @@ function helpers:set_draw_method(imagebox)
 
         local width = 16
         local height = 16
-        local offset_x = 6
-        local offset_y = 6
+        local offset_x = 9
+        local offset_y = 9
 
         local w = self._image:get_width()
         local h = self._image:get_height()
@@ -29,7 +29,7 @@ function helpers:listen(widget, interval)
     widget:update()
 
     -- Timer
-    local timer = timer({timeout = interval or 5})
+    local timer = timer({timeout = interval or 30})
 
     timer:connect_signal("timeout", function()
         widget:update()
