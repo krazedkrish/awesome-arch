@@ -50,7 +50,7 @@ theme.taglist_font        = "Cantarell Bold 10"
 -- | Tasklist | --
 
 theme.tasklist_font                 = "Cantarell Bold 10"
-theme.tasklist_disable_icon         = true
+theme.tasklist_disable_icon         = false
 theme.tasklist_bg_normal            = "png:" .. theme.icons .. "/panel/tasklist/normal.png"
 theme.tasklist_bg_focus             = "png:" .. theme.icons .. "/panel/tasklist/focus.png"
 theme.tasklist_bg_urgent            = "png:" .. theme.icons .. "/panel/tasklist/urgent.png"

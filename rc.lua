@@ -12,6 +12,9 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+-- Custom libraries
+local helpers = require("helpers")
+
 -- Custom widgets
 local myvolume = require("volume")
 local mybattery = require("battery")
@@ -121,6 +124,70 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- {{{ Wibox
+-- Define custom tasklist updater
+function tasklistupdate(w, buttons, labelfunc, data, objects)
+    w:reset()
+
+    local l = wibox.layout.fixed.horizontal()
+    
+    for i, o in ipairs(objects) do
+        local cache = data[o]
+        local text, bg, bg_image, icon = labelfunc(o)
+        
+        if cache then
+            icon = cache.icon
+            label = cache.label
+            background = cache.background
+    
+        else
+            icon = wibox.widget.imagebox()
+            icon:buttons(common.create_buttons(buttons, o))
+            helpers:set_draw_method(icon, 14, 14, 20, 20)
+
+            label = wibox.widget.textbox()
+            label:buttons(common.create_buttons(buttons, o))
+
+            background = wibox.widget.background()
+
+            data[o] = {
+                icon = icon,
+                label = label,
+                background = background
+            }
+            
+            local group = wibox.layout.fixed.horizontal()
+
+            group:add(icon)
+            group:add(label)
+
+            background:set_widget(group)
+        
+        end
+
+        background:set_bg(bg)
+        icon:set_image(o.icon)
+
+        l:add(background)
+
+        --[[ TODO: This doesn't work with certain UTF-8 characters, probably because of HTML encoding
+        if bg == theme.tasklist_bg_focus then
+            local truncated = string.sub(o.name, 1, 30)
+
+            if truncated:len() < o.name:len() then
+                truncated = truncated .. "..."
+            end
+
+            truncated = "<span color='" .. theme.tasklist_fg_focus .. "'>" .. truncated .. "</span>"
+            
+            label:set_markup(truncated .. "   ")
+        --]]
+        
+        label:set_markup(o.class .. "   ")
+    end
+    
+    w:add(l)
+end
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
@@ -194,7 +261,7 @@ for s = 1, screen.count() do
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
     -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons, nil, tasklistupdate)
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", height = 32, screen = s })
@@ -256,14 +323,20 @@ root.buttons(awful.util.table.join(
 -- {{{ Key binding functions
 function raisevolume()
     awful.util.spawn("amixer set Master 9%+", false)
+
+    helpers:delay(myvolume.update, 0.1)
 end
 
 function lowervolume()
     awful.util.spawn("amixer set Master 9%-", false)
+
+    helpers:delay(myvolume.update, 0.1)
 end
 
 function mutevolume()
     awful.util.spawn("amixer -D pulse set Master 1+ toggle", false)
+
+    helpers:delay(myvolume.update, 0.1)
 end
 -- }}}
 

@@ -1,15 +1,15 @@
 local helpers = {}
 
-function helpers:set_draw_method(imagebox)
+function helpers:set_draw_method(imagebox, setx, sety, setwidth, setheight)
     function imagebox:draw(wibox, cr)
         if not self._image then return end
 
         cr:save()
 
-        local width = 16
-        local height = 16
-        local offset_x = 9
-        local offset_y = 9
+        local width = setwidth or 16
+        local height = setheight or 16
+        local offset_x = setx or 9
+        local offset_y = sety or 9
 
         local w = self._image:get_width()
         local h = self._image:get_height()
@@ -23,6 +23,17 @@ function helpers:set_draw_method(imagebox)
 
         cr:restore()
     end
+end
+
+function helpers:delay(func, time)
+    local timer = timer({timeout = time or 0})
+
+    timer:connect_signal("timeout", function()
+        func()
+        timer:stop()
+    end)
+
+    timer:start()
 end
 
 function helpers:listen(widget, interval)
