@@ -1,15 +1,10 @@
 local helpers = {}
 
-function helpers:set_draw_method(imagebox, setx, sety, setwidth, setheight)
-    function imagebox:draw(wibox, cr)
+function helpers:set_draw_method(imagebox, scale)
+    function imagebox:draw(wibox, cr, width, height)
         if not self._image then return end
 
         cr:save()
-
-        local width = setwidth or 16
-        local height = setheight or 16
-        local offset_x = setx or 9
-        local offset_y = sety or 9
 
         local w = self._image:get_width()
         local h = self._image:get_height()
@@ -17,6 +12,11 @@ function helpers:set_draw_method(imagebox, setx, sety, setwidth, setheight)
         local aspect_h = height / h
         if aspect > aspect_h then aspect = aspect_h end
 
+        aspect = aspect * 0.5
+
+        local offset_x = w * 0.5
+        local offset_y = h * 0.5
+        
         cr:scale(aspect, aspect)
         cr:set_source_surface(self._image, offset_x, offset_y)
         cr:paint()

@@ -142,7 +142,6 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
         else
             icon = wibox.widget.imagebox()
             icon:buttons(common.create_buttons(buttons, o))
-            helpers:set_draw_method(icon, 14, 14, 20, 20)
 
             label = wibox.widget.textbox()
             label:buttons(common.create_buttons(buttons, o))
@@ -167,6 +166,9 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
         background:set_bg(bg)
         icon:set_image(o.icon)
 
+        -- TODO: This method doesn't position certain gnome icons correctly
+        helpers:set_draw_method(icon)
+
         l:add(background)
 
         --[[ TODO: This doesn't work with certain UTF-8 characters, probably because of HTML encoding
@@ -180,9 +182,11 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
             truncated = "<span color='" .. theme.tasklist_fg_focus .. "'>" .. truncated .. "</span>"
             
             label:set_markup(truncated .. "   ")
-        --]]
         
-        label:set_markup(o.class .. "   ")
+        else--]]
+            label:set_markup("   " .. o.class .. "   ")
+
+        --end
     end
     
     w:add(l)
@@ -268,7 +272,6 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
     left_layout:add(separator)
@@ -295,10 +298,8 @@ for s = 1, screen.count() do
         end
 
         right_layout:add(mytextclock)
-        right_layout:add(separator)
+        right_layout:add(mylayoutbox[s])
     end
-
-    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
