@@ -184,7 +184,7 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
             label:set_markup(truncated .. "   ")
         
         else--]]
-            label:set_markup("   " .. o.class .. "   ")
+            label:set_markup(o.class .. "   ")
 
         --end
     end
