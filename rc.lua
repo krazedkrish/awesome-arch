@@ -163,10 +163,15 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
         
         end
 
-        background:set_bg(bg)
-        icon:set_image(o.icon)
+        local iconsrc = o.icon
 
-        -- TODO: This method doesn't position certain gnome icons correctly
+        if iconsrc == nil or iconsrc == "" then
+            iconsrc = "/usr/share/icons/gnome/scalable/emblems/emblem-system-symbolic.svg"
+        end
+
+        background:set_bg(bg)
+        icon:set_image(iconsrc)
+
         helpers:set_draw_method(icon)
 
         l:add(background)
@@ -184,7 +189,14 @@ function tasklistupdate(w, buttons, labelfunc, data, objects)
             label:set_markup(truncated .. "   ")
         
         else--]]
-            label:set_markup(o.class .. "   ")
+            
+        local text = o.class
+
+        if awful.client.floating.get(o) then
+            text = text .. " (F)"
+        end
+
+        label:set_markup(text .. "   ")
 
         --end
     end
