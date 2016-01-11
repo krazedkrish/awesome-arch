@@ -128,79 +128,94 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 function tasklistupdate(w, buttons, labelfunc, data, objects)
     w:reset()
 
+    -- Main container
     local l = wibox.layout.fixed.horizontal()
-    
+    l:fill_space(true)
+
+    -- Text widget for displaying the name of the focused client
+    local activeclient = nil;
+
+    -- The inactive icons container
+    local inactiveclients = wibox.layout.fixed.horizontal()
+
+    -- Loop through all clients
     for i, o in ipairs(objects) do
+        -- Init widget cache
         local cache = data[o]
+
+        -- Get client informaion
         local text, bg, bg_image, icon = labelfunc(o)
         
+        -- If cache is defined, use cache
         if cache then
             icon = cache.icon
             label = cache.label
             background = cache.background
     
+        -- Else start from scratch
         else
+            -- Inactive icon widgets
             icon = wibox.widget.imagebox()
-            icon:buttons(common.create_buttons(buttons, o))
-
-            label = wibox.widget.textbox()
-            label:buttons(common.create_buttons(buttons, o))
-
             background = wibox.widget.background()
+            background:set_widget(icon)
 
+            -- Active label widget
+            label = wibox.widget.textbox()
+
+            -- Cache widgets
             data[o] = {
                 icon = icon,
                 label = label,
                 background = background
             }
+           
+            -- Make icon clickable
+            icon:buttons(common.create_buttons(buttons, o))
             
-            local group = wibox.layout.fixed.horizontal()
-
-            group:add(icon)
-            group:add(label)
-
-            background:set_widget(group)
-        
+            -- Use custom drawing method for drawing icons
+            helpers:set_draw_method(icon)
         end
 
+        -- Use a fallback for clients without icons
         local iconsrc = o.icon
 
         if iconsrc == nil or iconsrc == "" then
             iconsrc = "/usr/share/icons/gnome/scalable/emblems/emblem-system-symbolic.svg"
         end
 
+        -- Update background
         background:set_bg(bg)
+
+        -- Update icon image
         icon:set_image(iconsrc)
 
-        helpers:set_draw_method(icon)
-
-        l:add(background)
-
-        --[[ TODO: This doesn't work with certain UTF-8 characters, probably because of HTML encoding
+        -- Always add the background and icon
+        inactiveclients:add(background)
+        
+        -- If client is focused, add text and set as active client
         if bg == theme.tasklist_bg_focus then
-            local truncated = string.sub(o.name, 1, 30)
+            local labeltext = text
 
-            if truncated:len() < o.name:len() then
-                truncated = truncated .. "..."
+            -- Append (F) if client is floating
+            if awful.client.floating.get(o) then
+                labeltext = labeltext .. " (F)"
             end
 
-            truncated = "<span color='" .. theme.tasklist_fg_focus .. "'>" .. truncated .. "</span>"
-            
-            label:set_markup(truncated .. "   ")
-        
-        else--]]
-            
-        local text = o.class
-
-        if awful.client.floating.get(o) then
-            text = text .. " (F)"
+            label:set_markup("   " .. labeltext .. "   ")
+       
+            activeclient = label
         end
-
-        label:set_markup(text .. "   ")
-
-        --end
     end
     
+    -- Add the inactive clients as icons first
+    l:add(inactiveclients)
+
+    -- Then add the active client as a text widget
+    if activeclient then
+        l:add(activeclient)
+    end
+    
+    -- Add the main container to the parent widget
     w:add(l)
 end
 
@@ -261,7 +276,10 @@ mytasklist.buttons = awful.util.table.join(
 for s = 1, screen.count() do
     -- Widgets
     local separator = wibox.widget.imagebox()
-    separator:set_image(beautiful.get().spr5px)
+    separator:set_image(beautiful.get().spr2px)
+
+    local separatorbig = wibox.widget.imagebox()
+    separatorbig:set_image(beautiful.get().spr5px)
 
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -301,20 +319,20 @@ for s = 1, screen.count() do
         right_layout:add(mysystraymargin)
         right_layout:add(myvolume.icon)
         right_layout:add(myvolume.text)
-        right_layout:add(separator)
 
         if mybattery.hasbattery then
+            right_layout:add(separator)
             right_layout:add(mybattery.icon)
             right_layout:add(mybattery.text)
-            right_layout:add(separator)
         end
         
         if mywifi.haswifi then
+            right_layout:add(separator)
             right_layout:add(mywifi.icon)
             right_layout:add(mywifi.text)
-            right_layout:add(separator)
         end
 
+        right_layout:add(separatorbig)
         right_layout:add(mytextclock)
         right_layout:add(mylayoutbox[s])
     end
