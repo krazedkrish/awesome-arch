@@ -37,14 +37,20 @@ function widget:update()
      
     local f = io.popen("iwconfig " .. adapter)
     local wifi = f:read("*all")
+    local connected = string.match(wifi, "ESSID:\"(%w*)\"")
     local wifiMin, wifiMax = string.match(wifi, "(%d?%d)/(%d?%d)")
 
     wifiMin = tonumber(wifiMin) or 0
     wifiMax = tonumber(wifiMax) or 70
 
     local quality = math.floor(wifiMin / wifiMax * 100)
+    local text = quality .. "%"
 
-    widget.text:set_markup(quality .. "%")
+    if connected then
+        text = text .. " (" .. connected .. ")"
+    end
+
+    widget.text:set_markup(text)
 
     local iconpath = "/usr/share/icons/gnome/scalable/status/network-wireless-signal"
     
