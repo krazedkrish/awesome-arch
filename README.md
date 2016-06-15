@@ -1,5 +1,10 @@
-# mrzapp's awesomerc
-###### If you like awesome and Gnome, this is for you
+krazedkrish's awesome config
+===========
+
+My configs are based on
+
+* [mrzapp's awesomerc](https://github.com/mrzapp/awesomerc)
+* [setkeh's Awesome-3.5](https://github.com/setkeh/Awesome-3.5)
 
 ## Features
 - Gnome fonts
@@ -7,5 +12,6 @@
 - Wifi widget
 - Battery widget
 - Volume widget
+- Brightness widget
 
-![](https://raw.githubusercontent.com/mrzapp/awesomerc/master/screenshot.png)
+![](https://raw.githubusercontent.com/krazedkrish/awesome-arch/screenshot.png)
