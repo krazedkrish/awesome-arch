@@ -29,7 +29,10 @@ theme.menu_height = 16
 theme.menu_width  = 160
 
 -- | Layout | --
-
+theme.layout_fairh = theme.icons .. "/panel/layouts/fairh.png"
+theme.layout_fairv = theme.icons .. "/panel/layouts/fairv.png"
+theme.layout_spiral  = theme.icons .. "/panel/layouts/spiral.png"
+theme.layout_dwindle = theme.icons .. "/panel/layouts/dwindle.png"
 theme.layout_floating   = theme.icons .. "/panel/layouts/floating.png"
 theme.layout_tile       = theme.icons .. "/panel/layouts/tile.png"
 theme.layout_tileleft   = theme.icons .. "/panel/layouts/tileleft.png"
@@ -37,7 +40,10 @@ theme.layout_tilebottom = theme.icons .. "/panel/layouts/tilebottom.png"
 theme.layout_tiletop    = theme.icons .. "/panel/layouts/tiletop.png"
 theme.layout_max        = theme.icons .. "/panel/layouts/max.png"
 theme.layout_fullscreen        = theme.icons .. "/panel/layouts/maxfullscreen.png"
-theme.layout_magnifier  = theme.icons .. "/panel/layouts/magnifier.png"
+theme.layout_magnifier  = theme.icons .. "magnifier.png"
+theme.awesome_icon = theme.icons .. "awesome16.png"
+theme.arch_icon = theme.icons .. "Arch.png"
+
 
 -- | Taglist | --
 

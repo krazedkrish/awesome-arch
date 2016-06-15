@@ -6,7 +6,7 @@ local helpers = require("./helpers")
 local widget = {}
 
 -- {{{ Define adapter
-local adapter = "BAT0"
+local adapter = "BAT1"
 local charge = "charge"
 
 -- Test identifier

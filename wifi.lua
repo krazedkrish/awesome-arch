@@ -12,6 +12,11 @@ widget.haswifi = helpers:test("iwconfig " .. adapter)
 
 -- Try another adapter name
 if not widget.haswifi then 
+  adapter = "wlp1s0"
+  widget.haswifi = helpers:test("iwconfig " .. adapter)
+end
+
+if not widget.haswifi then
     adapter = "wlp3s0"
     widget.haswifi = helpers:test("iwconfig " .. adapter)
 end

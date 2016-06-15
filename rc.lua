@@ -1,4 +1,4 @@
--- Standard awesome library
+-- Standard awesome libraru
 local gears = require("gears")
 local awful = require("awful")
 local common = require("awful.widget.common") 
@@ -17,11 +17,12 @@ local helpers = require("helpers")
 
 -- Custom widgets
 local myvolume = require("volume")
+local mybrightness= require("brightness")
 local mybattery = require("battery")
 local mywifi = require("wifi")
 
 -- Load Debian menu entries
-require("debian.menu")
+require("archmenu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -54,9 +55,9 @@ end
 beautiful.init("~/.config/awesome/themes/current/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
+terminal = "terminator"
+editor = "emacs" or "editor"
+editor_cmd = terminal .. " -e " .. editor .. " -nw"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -68,16 +69,16 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    --awful.layout.suit.floating,
-    --awful.layout.suit.tile.left,
-    --awful.layout.suit.tile.bottom,
-    --awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
+    awful.layout.suit.floating,
     awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
@@ -93,12 +94,34 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = {}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-    tags[s] = awful.tag({ " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }, s, layouts[1])
-end
+tags = {
+ names  = { 
+         '♞:Firefox',
+         '☯:Emacs', 
+         '☃:Firefox', 
+         '⚡:Thunderbird', 
+         '☠:Chrome',  
+         '♫:Multimedia', 
+         '⌘:Terminal',
+         '✇:Chat',
+         '☻:Facepalm',
+           },
+ layout = {
+      layouts[5],   -- 1:firefox
+      layouts[10],  -- 2:emacs
+      layouts[10],  -- 3:firefox
+      layouts[10],  -- 4:thunderbird
+      layouts[2],   -- 5:chrome
+      layouts[10],  -- 6:multimedia
+      layouts[5],  -- 7:terminal
+      layouts[2],   -- 8:chat
+      layouts[10],  -- 9:facepalm
+          }
+       }
+  for s = 1, screen.count() do
+ -- Each screen has its own tag table.
+ tags[s] = awful.tag(tags.names, s, tags.layout)
+ end
 -- }}}
 
 -- {{{ Menu
@@ -110,13 +133,14 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
-                                    { "open terminal", terminal }
+mymainmenu = awful.menu({ items = { { "arch", xdgmenu, beautiful.arch_icon },
+                                    { "a&wesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "&gmrun", "gmrun"},
+                                    { "&terminal", terminal }
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+mylauncher = awful.widget.launcher({ image = beautiful.arch_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
@@ -308,6 +332,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
     left_layout:add(separator)
@@ -319,6 +344,10 @@ for s = 1, screen.count() do
         right_layout:add(mysystraymargin)
         right_layout:add(myvolume.icon)
         right_layout:add(myvolume.text)
+
+        right_layout:add(separator)
+        right_layout:add(mybrightness.icon)
+        right_layout:add(mybrightness.text)
 
         if mybattery.hasbattery then
             right_layout:add(separator)
@@ -375,6 +404,16 @@ function mutevolume()
 
     helpers:delay(myvolume.update, 0.1)
 end
+
+function raisebrightness()
+    awful.util.spawn("xbacklight -inc 5", false)
+    helpers:delay(mybrightness.update, 0.3)
+end
+
+function lowerbrightness()
+    awful.util.spawn("xbacklight -dec 5", false)
+    helpers:delay(mybrightness.update, 0.3)
+end
 -- }}}
 
 -- {{{ Key bindings
@@ -429,6 +468,8 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioRaiseVolume", raisevolume),
     awful.key({                   }, "XF86AudioLowerVolume", lowervolume),
     awful.key({                   }, "XF86AudioMute", mutevolume),
+    awful.key({                   }, "XF86MonBrightnessUp", raisebrightness),
+    awful.key({                   }, "XF86MonBrightnessDown", lowerbrightness),
     
     awful.key({ modkey, "Shift"   }, "Up", raisevolume),
     awful.key({ modkey, "Shift"   }, "Down", lowervolume),
@@ -447,12 +488,16 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+    awful.key({ modkey,           }, "F2", function () awful.util.spawn("gmrun") end),
+    awful.key({ modkey,           }, "e", function () awful.util.spawn("emacs") end),
+    awful.key({ modkey,           }, "b", function () awful.util.spawn("firefox --no-remote -P") end)
 )
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey,           }, "F4",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -535,12 +580,24 @@ awful.rules.rules = {
                      raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "guake" },
+    { rule = { class = "Firefox" },
+      properties = { tag = tags[1][1] } },
+    { rule = { class = "Emacs" },
+      properties = { tag = tags[1][2] } },
+    { rule = { class = "Terminator" },
+      properties = { tag = tags[1][7] } },
+    { rule = { class = "konsole" },
+      properties = { tag = tags[1][7] } },
+    { rule = { class = "yakuake" },
       properties = { floating = true } },
     { rule = { class = "Telegram" },
-      properties = { tag = tags[1][4] } },
+      properties = { tag = tags[1][8] } },
     { rule = { class = "Slack" },
-      properties = { tag = tags[1][4] } },
+      properties = { tag = tags[1][8] } },
+    { rule = { class = "Pidgin" },
+      properties = { tag = tags[1][8] } },
+    { rule = { class = "Skype" },
+      properties = { tag = tags[1][8] } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -621,9 +678,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{ Autorun apps
-awful.util.spawn("guake", false)
-awful.util.spawn("kupfer --no-splash", false)
+awful.util.spawn("nm-applet --sm-disable", false)
+awful.util.spawn("emacs", false)
 awful.util.spawn("dropbox start", false)
-awful.util.spawn("/opt/telegram/Telegram", false)
+awful.util.spawn("telegram", false)
 awful.util.spawn("/usr/share/slack/slack %U", false)
 -- }}}
