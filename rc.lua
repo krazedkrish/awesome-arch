@@ -22,7 +22,7 @@ local mybattery = require("battery")
 local mywifi = require("wifi")
 
 -- Load Debian menu entries
-require("archmenu")
+require("debian.menu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -133,7 +133,7 @@ myawesomemenu = {
    { "&quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "&Arch", xdgmenu, beautiful.arch_icon },
+mymainmenu = awful.menu({ items = { { "Ubuntu", debian.menu.Debian_menu.Debian, beautiful.arch_icon },
                                     { "a&wesome", myawesomemenu, beautiful.awesome_icon },
                                     { "&gmrun", "gmrun"},
                                     { "&terminal", terminal }
@@ -700,7 +700,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
 awful.util.spawn("emacs", false)
-awful.util.spawn("dropbox start", false)
-awful.util.spawn("telegram", false)
+-- awful.util.spawn("dropbox start", false)
+awful.util.spawn("indicator-freq", false)
+awful.util.spawn("indicator-kdeconnect", false)
+awful.util.spawn("/opt/telegram/Telegram", false)
+awful.util.spawn("slack", false)
 awful.util.spawn("/usr/share/slack/slack %U", false)
 -- }}}
