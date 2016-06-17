@@ -57,7 +57,7 @@ beautiful.init("~/.config/awesome/themes/current/theme.lua")
 -- This is used later as the default terminal and editor to run.
 terminal = "terminator"
 editor = "emacs" or "editor"
-editor_cmd = terminal .. " -e " .. editor .. " -nw"
+editor_cmd = terminal .. " -e " .. editor .. " -nw "
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -98,24 +98,24 @@ tags = {
  names  = { 
          '♞:Firefox',
          '☯:Emacs', 
-         '☃:Firefox', 
+         '☠:Browsers',  
          '⚡:Thunderbird', 
-         '☠:Chrome',  
+         '☃:Docs', 
          '♫:Multimedia', 
          '⌘:Terminal',
          '✇:Chat',
          '☻:Facepalm',
            },
  layout = {
-      layouts[5],   -- 1:firefox
-      layouts[10],  -- 2:emacs
-      layouts[10],  -- 3:firefox
+      layouts[9],   -- 1:firefox
+      layouts[9],  -- 2:emacs
+      layouts[8],  -- 3:browsers
       layouts[10],  -- 4:thunderbird
-      layouts[2],   -- 5:chrome
-      layouts[10],  -- 6:multimedia
-      layouts[5],  -- 7:terminal
-      layouts[2],   -- 8:chat
-      layouts[10],  -- 9:facepalm
+      layouts[2],   -- 5:docs
+      layouts[1],  -- 6:multimedia
+      layouts[4],  -- 7:terminal
+      layouts[5],   -- 8:chat
+      layouts[1],  -- 9:facepalm
           }
        }
   for s = 1, screen.count() do
@@ -127,13 +127,13 @@ tags = {
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "&manual", terminal .. " -e man awesome" },
+   { "&edit config", editor_cmd .. " " .. awesome.conffile },
+   { "&restart", awesome.restart },
+   { "&quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "arch", xdgmenu, beautiful.arch_icon },
+mymainmenu = awful.menu({ items = { { "&Arch", xdgmenu, beautiful.arch_icon },
                                     { "a&wesome", myawesomemenu, beautiful.awesome_icon },
                                     { "&gmrun", "gmrun"},
                                     { "&terminal", terminal }
@@ -584,6 +584,26 @@ awful.rules.rules = {
       properties = { tag = tags[1][1] } },
     { rule = { class = "Emacs" },
       properties = { tag = tags[1][2] } },
+    { rule = { class = "Uzbl" },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "Chromium" },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "Thunderbird" },
+      properties = { tag = tags[1][4] } },
+    { rule = { class = "Zathura" },
+      properties = { tag = tags[1][5] } },
+    { rule = { class = "Okular" },
+      properties = { tag = tags[1][5] } },
+    { rule = { class = "libreoffice-writer" },
+      properties = { tag = tags[1][5] } },
+    { rule = { class = "Vlc" },
+      properties = { tag = tags[1][6] } },
+    { rule = { class = "MPlayer" },
+      properties = { tag = tags[1][6] } },
+    { rule = { class = "Sonata" },
+      properties = { tag = tags[1][6] } },
+    { rule = { class = "cantata" },
+      properties = { tag = tags[1][6] } },
     { rule = { class = "Terminator" },
       properties = { tag = tags[1][7] } },
     { rule = { class = "konsole" },
