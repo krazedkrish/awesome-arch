@@ -618,6 +618,10 @@ awful.rules.rules = {
       properties = { tag = tags[1][8] } },
     { rule = { class = "Skype" },
       properties = { tag = tags[1][8] } },
+    { rule = { class = "xpad" },
+      properties = { tag = tags[1][9], floating = true, sticky = true } },
+    { rule = { class = "Tasque" },
+      properties = { tag = tags[1][9] } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -699,11 +703,16 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
-awful.util.spawn("emacs", false)
+awful.util.spawn("emc", false)
 -- awful.util.spawn("dropbox start", false)
+awful.util.spawn("tasque", false)
+awful.util.spawn("xpad", false)
 awful.util.spawn("indicator-freq", false)
 awful.util.spawn("indicator-kdeconnect", false)
 awful.util.spawn("/opt/telegram/Telegram", false)
-awful.util.spawn("slack", false)
 awful.util.spawn("/usr/share/slack/slack %U", false)
+awful.util.spawn("thunderbird", false)
+awful.util.spawn("skype", false)
+awful.util.spawn("firefox", false)
+awful.util.spawn("terminator", false)
 -- }}}
