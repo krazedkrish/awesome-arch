@@ -703,12 +703,11 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
-awful.util.spawn("emc", false)
+--awful.util.spawn("emc", false)
 awful.util.spawn("emacs", false)
 awful.util.spawn("dropbox start", false)
 awful.util.spawn("telegram", false)
 awful.util.spawn("tasque", false)
-awful.util.spawn("xpad", false)
 awful.util.spawn("indicator-freq", false)
 awful.util.spawn("indicator-kdeconnect", false)
 awful.util.spawn("slack", false)
