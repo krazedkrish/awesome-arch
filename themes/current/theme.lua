@@ -2,7 +2,7 @@ theme            = {}
 theme.icons      = os.getenv("HOME") .. "/.config/awesome/themes/current/icons/"
 theme.wallpaper  = os.getenv("HOME") .. "/.config/awesome/themes/current/wallpapers/wallpaper.jpg"
 theme.panel      = "png:" .. theme.icons .. "/panel/panel.png"
-theme.font       = "Cantarell Bold 10"
+theme.font       = "Cantarell Bold 8"
 
 theme.fg_normal  = "#cccccc"
 theme.fg_focus   = "#ffffff"
@@ -51,11 +51,11 @@ theme.taglist_bg_empty    = "png:" .. theme.icons .. "/panel/taglist/empty.png"
 theme.taglist_bg_occupied = "png:" .. theme.icons .. "/panel/taglist/occupied.png"
 theme.taglist_bg_urgent   = "png:" .. theme.icons .. "/panel/taglist/urgent.png"
 theme.taglist_bg_focus    = "png:" .. theme.icons .. "/panel/taglist/focus.png"
-theme.taglist_font        = "Cantarell Bold 10"
+theme.taglist_font        = "Cantarell Bold 8"
 
 -- | Tasklist | --
 
-theme.tasklist_font                 = "Cantarell Bold 10"
+theme.tasklist_font                 = "Cantarell Bold 8"
 theme.tasklist_disable_icon         = false
 theme.tasklist_bg_normal            = "png:" .. theme.icons .. "/panel/tasklist/normal.png"
 theme.tasklist_bg_focus             = "png:" .. theme.icons .. "/panel/tasklist/focus.png"

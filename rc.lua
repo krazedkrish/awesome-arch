@@ -19,6 +19,7 @@ local helpers = require("helpers")
 local myvolume = require("volume")
 local mybrightness= require("brightness")
 local mybattery = require("battery")
+local mymail = require("email")
 local mywifi = require("wifi")
 
 -- Load Debian menu entries
@@ -342,6 +343,11 @@ for s = 1, screen.count() do
    
     if s == 1 then
         right_layout:add(mysystraymargin)
+
+        right_layout:add(mymail.icon)
+        right_layout:add(mymail.text)
+
+        right_layout:add(separator)
         right_layout:add(myvolume.icon)
         right_layout:add(myvolume.text)
 
@@ -703,14 +709,15 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
-awful.util.spawn("emc", false)
+--awful.util.spawn("emc", false)
+awful.util.spawn("/home/codekathmandu/.xcowsay-utils/xcowsay_welcome.sh", false)
 -- awful.util.spawn("dropbox start", false)
 awful.util.spawn("tasque", false)
-awful.util.spawn("xpad", false)
+--awful.util.spawn("xpad", false)
 awful.util.spawn("indicator-freq", false)
 awful.util.spawn("indicator-kdeconnect", false)
 awful.util.spawn("/opt/telegram/Telegram", false)
-awful.util.spawn("/usr/share/slack/slack %U", false)
+awful.util.spawn("slack", false)
 awful.util.spawn("thunderbird", false)
 awful.util.spawn("skype", false)
 awful.util.spawn("firefox", false)
