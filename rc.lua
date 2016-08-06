@@ -476,6 +476,7 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioMute", mutevolume),
     awful.key({                   }, "XF86MonBrightnessUp", raisebrightness),
     awful.key({                   }, "XF86MonBrightnessDown", lowerbrightness),
+    awful.key({                   }, "XF86TouchpadToggle", function () awful.util.spawn("/usr/local/bin/touchpad.sh", false) end),
     
     awful.key({ modkey, "Shift"   }, "Up", raisevolume),
     awful.key({ modkey, "Shift"   }, "Down", lowervolume),
@@ -722,4 +723,5 @@ awful.util.spawn("thunderbird", false)
 awful.util.spawn("skype", false)
 awful.util.spawn("firefox", false)
 awful.util.spawn("terminator", false)
+awful.util.spawn("syndaemon -i 0.5 -t -K -R", false)
 -- }}}
