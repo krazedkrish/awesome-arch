@@ -55,7 +55,7 @@ end
 beautiful.init("~/.config/awesome/themes/current/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator"
+terminal = "gnome-terminal"
 editor = "emacs" or "editor"
 editor_cmd = terminal .. " -e " .. editor .. " -nw "
 
@@ -604,10 +604,18 @@ awful.rules.rules = {
       properties = { tag = tags[1][6] } },
     { rule = { class = "cantata" },
       properties = { tag = tags[1][6] } },
+    { rule = { class = "Terminal" },
+      properties = { tag = tags[1][7] } },
     { rule = { class = "Terminator" },
       properties = { tag = tags[1][7] } },
     { rule = { class = "konsole" },
       properties = { tag = tags[1][7] } },
+    { rule = { class = "Gnome-terminal" },
+      properties = { tag = tags[1][7] } },
+    { rule = { class = "OSD Lyrics" },
+      properties = { floating = true } },
+    { rule = { class = "Osdlyrics" },
+      properties = { floating = true } },
     { rule = { class = "yakuake" },
       properties = { floating = true } },
     { rule = { class = "Telegram" },
@@ -703,8 +711,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
-awful.util.spawn("emc", false)
-awful.util.spawn("emacs", false)
+awful.util.spawn("compton", false)
+-- awful.util.spawn("emc", false)
+-- awful.util.spawn("emacs", false)
+awful.util.spawn("emacsclient -a '' -c", false)
 awful.util.spawn("dropbox start", false)
 awful.util.spawn("telegram", false)
 awful.util.spawn("tasque", false)
@@ -712,4 +722,5 @@ awful.util.spawn("xpad", false)
 awful.util.spawn("indicator-freq", false)
 awful.util.spawn("indicator-kdeconnect", false)
 awful.util.spawn("slack", false)
+-- awful.util.spawn("compton -c -r8 -l-12 -t-8  -b  -G  -f -D30 -I0.45 -O0.45 -o0.0 --unredir-if-possible  --backend glx --glx-no-stencil --glx-no-rebind-pixmap", false)
 -- }}}
