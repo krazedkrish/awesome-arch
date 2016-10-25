@@ -19,6 +19,7 @@ local helpers = require("helpers")
 local myvolume = require("volume")
 local mybrightness= require("brightness")
 local mybattery = require("battery")
+local mymail = require("email")
 local mywifi = require("wifi")
 
 -- Load Debian menu entries
@@ -71,14 +72,14 @@ local layouts =
 {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
+    -- awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
+    -- awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
@@ -95,27 +96,27 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
- names  = { 
+ names  = {
          '♞:Firefox',
-         '☯:Emacs', 
-         '☠:Browsers',  
-         '⚡:Thunderbird', 
-         '☃:Docs', 
-         '♫:Multimedia', 
+         '☯:Emacs',
+         '☠:Browsers',
+         '⚡:Thunderbird',
+         '☃:Docs',
+         '♫:Multimedia',
          '⌘:Terminal',
          '✇:Chat',
          '☻:Facepalm',
            },
  layout = {
-      layouts[9],   -- 1:firefox
-      layouts[9],  -- 2:emacs
-      layouts[8],  -- 3:browsers
-      layouts[10],  -- 4:thunderbird
-      layouts[2],   -- 5:docs
+      layouts[2],   -- 1:firefox
+      layouts[4],  -- 2:emacs
+      layouts[3],  -- 3:browsers
+      layouts[5],  -- 4:thunderbird
+      layouts[6],   -- 5:docs
       layouts[1],  -- 6:multimedia
       layouts[4],  -- 7:terminal
-      layouts[5],   -- 8:chat
-      layouts[1],  -- 9:facepalm
+      layouts[3],   -- 8:chat
+      layouts[3],  -- 9:facepalm
           }
        }
   for s = 1, screen.count() do
@@ -342,6 +343,11 @@ for s = 1, screen.count() do
    
     if s == 1 then
         right_layout:add(mysystraymargin)
+
+        right_layout:add(mymail.icon)
+        right_layout:add(mymail.text)
+
+        right_layout:add(separator)
         right_layout:add(myvolume.icon)
         right_layout:add(myvolume.text)
 
@@ -470,6 +476,7 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioMute", mutevolume),
     awful.key({                   }, "XF86MonBrightnessUp", raisebrightness),
     awful.key({                   }, "XF86MonBrightnessDown", lowerbrightness),
+    awful.key({                   }, "XF86TouchpadToggle", function () awful.util.spawn("/usr/local/bin/touchpad.sh", false) end),
     
     awful.key({ modkey, "Shift"   }, "Up", raisevolume),
     awful.key({ modkey, "Shift"   }, "Down", lowervolume),
@@ -712,15 +719,15 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- {{{ Autorun apps
 awful.util.spawn("nm-applet --sm-disable", false)
 awful.util.spawn("compton", false)
+-- awful.util.spawn("compton -c -r8 -l-12 -t-8  -b  -G  -f -D30 -I0.45 -O0.45 -o0.0 --unredir-if-possible  --backend glx --glx-no-stencil --glx-no-rebind-pixmap", false)
 -- awful.util.spawn("emc", false)
 -- awful.util.spawn("emacs", false)
+awful.util.spawn("albert", false)
 awful.util.spawn("emacsclient -a '' -c", false)
 awful.util.spawn("dropbox start", false)
 awful.util.spawn("telegram", false)
 awful.util.spawn("tasque", false)
 awful.util.spawn("xpad", false)
-awful.util.spawn("indicator-freq", false)
 awful.util.spawn("indicator-kdeconnect", false)
 awful.util.spawn("slack", false)
--- awful.util.spawn("compton -c -r8 -l-12 -t-8  -b  -G  -f -D30 -I0.45 -O0.45 -o0.0 --unredir-if-possible  --backend glx --glx-no-stencil --glx-no-rebind-pixmap", false)
 -- }}}
