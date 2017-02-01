@@ -20,6 +20,15 @@ local myvolume = require("volume")
 local mybrightness= require("brightness")
 local mybattery = require("battery")
 local mywifi = require("wifi")
+local foggy = require('foggy')  -- for xrandr
+
+-- Foggy config
+local foggyicon = wibox.widget.background(wibox.widget.imagebox('path-to-image.png'), '#313131')
+foggyicon:buttons(awful.util.table.join(
+                   awful.button({ }, 1, function (c)
+                       foggy.menu(s)
+                   end)
+))
 
 -- Load Debian menu entries
 require("archmenu")
@@ -342,6 +351,7 @@ for s = 1, screen.count() do
    
     if s == 1 then
         right_layout:add(mysystraymargin)
+        right_layout:add(foggyicon)
         right_layout:add(myvolume.icon)
         right_layout:add(myvolume.text)
 
@@ -487,12 +497,15 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
+
+    -- Foggy keys
+    awful.key({ modkey, "Control" }, "p",      foggy.menu),
+
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ modkey,           }, "F2", function () awful.util.spawn("gmrun") end),
     awful.key({ modkey,           }, "e", function () awful.util.spawn("emacs") end),
-    awful.key({ modkey,           }, "b", function () awful.util.spawn("firefox --no-remote -P") end)
-)
+    awful.key({ modkey,           }, "b", function () awful.util.spawn("firefox --no-remote -P") end))
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),

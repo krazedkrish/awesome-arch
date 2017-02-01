@@ -1,0 +1,3 @@
+[submodule "foggy"]
+	path = foggy
+	url = https://github.com/k3rni/foggy.git
