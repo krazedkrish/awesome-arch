@@ -27,7 +27,7 @@ function widget:update()
     local brightness = math.floor( status )
     widget.text:set_markup(brightness .. "%")
 
-    local iconpath = "/usr/share/icons/gnome/scalable/status/display-brightness-symbolic.svg" 
+    local iconpath = "/usr/share/icons/Faba/symbolic/status/display-brightness-symbolic.svg" 
 
     widget.icon:set_image(iconpath)
 

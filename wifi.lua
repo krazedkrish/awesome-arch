@@ -51,13 +51,13 @@ function widget:update()
     local quality = math.floor(wifiMin / wifiMax * 100)
     local text = quality .. "%"
 
-    if connected then
-        text = text .. " (" .. connected .. ")"
-    end
+    -- if connected then
+    --     text = text .. " (" .. connected .. ")"
+    -- end
 
     widget.text:set_markup(text)
 
-    local iconpath = "/usr/share/icons/gnome/scalable/status/network-wireless-signal"
+    local iconpath = "/usr/share/icons/Faba/symbolic/status/network-wireless-signal"
     
     if quality <= 0 then
         iconpath = iconpath .. "-none"

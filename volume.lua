@@ -28,7 +28,7 @@ function widget:update()
 
     widget.text:set_markup(volume .. "%")
 
-    local iconpath = "/usr/share/icons/gnome/scalable/status/audio-volume" 
+    local iconpath = "/usr/share/icons/Faba/symbolic/status/audio-volume" 
 
     if string.find(status, "[off]", 1, true) or volume <= 0.0 then
         iconpath = iconpath .. "-muted"

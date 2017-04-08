@@ -44,7 +44,7 @@ function widget:update()
 
     if cur and cap then
         local battery = math.floor(cur * 100 / cap)
-        local iconpath = "/usr/share/icons/gnome/scalable/status/battery"
+        local iconpath = "/usr/share/icons/Faba/symbolic/status/battery"
        
         if(battery < 10) then
             iconpath = iconpath .. "-caution"
